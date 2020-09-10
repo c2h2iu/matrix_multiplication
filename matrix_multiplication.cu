@@ -114,12 +114,12 @@ void matrix_multiplication_gpu(const int approach){
     cudaFree(d_B);
     cudaFree(d_C);
 
+    /***
     for(int i = 0; i < dimension*dimension; ++i){
 	if(i%dimension == 0)    std::cout << '\n';
         std::cout << h_C[i] << ' ';
     }
-    
-
+    ***/
 }
 
 
