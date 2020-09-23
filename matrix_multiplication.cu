@@ -80,7 +80,7 @@ __global__ void kernel_shared_memory(int* d_A, int* d_B, int* d_C, const int dim
 	__syncthreads();
     }
 
-    d_C[y + dimension + x] = result;
+    d_C[y * dimension + x] = result;
 }
 
 
