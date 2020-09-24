@@ -65,13 +65,13 @@ __global__ void kernel_shared_memory(int* d_A, int* d_B, int* d_C, const int dim
     __shared__ int s_d_A[32][32];
     __shared__ int s_d_B[32][32];
 
-    int x = threadIdx.x + blockIdx.x * blockDim.x;
-    int y = threadIdx.y + blockIdx.y * blockDim.y;
+    int column = threadIdx.x + blockIdx.x * blockDim.x;
+    int row = threadIdx.y + blockIdx.y * blockDim.y;
     int result = 0;
 
     for(int i = 0; i < dimension/32; ++i){
-        s_d_A[threadIdx.y][threadIdx.x] = d_A[y * dimension + (i * 32 + threadIdx.x)];
-	s_d_B[threadIdx.y][threadIdx.x] = d_B[(i * 32 + threadIdx.y) * dimension + x];
+        s_d_A[threadIdx.y][threadIdx.x] = d_A[row * dimension + i * 32 + threadIdx.x];
+	s_d_B[threadIdx.y][threadIdx.x] = d_B[(i * 32 + threadIdx.y) * dimension + column];
 
 	__syncthreads();
 
@@ -80,7 +80,7 @@ __global__ void kernel_shared_memory(int* d_A, int* d_B, int* d_C, const int dim
 	__syncthreads();
     }
 
-    d_C[y * dimension + x] = result;
+    d_C[row * dimension + column] = result;
 }
 
 
